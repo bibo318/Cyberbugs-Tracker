@@ -29,8 +29,8 @@
 
 1. **Clone the repository**
    \`\`\`bash
-   git clone https://github.com/yourusername/secresearch-platform.git
-   cd secresearch-platform
+   git clone https://github.com/bibo318/Cyberbugs-Tracker
+   cd Cyberbugs-Tracker
    \`\`\`
 
 2. **Install dependencies**
@@ -68,7 +68,7 @@
 
 ### One-Click Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/secresearch-platform)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/Cyberbugs-Tracker)
 
 ### Manual Deployment
 
@@ -196,8 +196,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - 📧 Email: support@secresearch.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/secresearch-platform/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/secresearch-platform/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/Cyberbugs-Tracker/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/Cyberbugs-Tracker/discussions)
 
 ---
 
