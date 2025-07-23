@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, Shield, Eye, AlertTriangle, Code, Newspaper, Filter, Calendar, ExternalLink } from "lucide-react"
+import { Search, Shield, Eye, AlertTriangle, Code, Newspaper, Filter, Calendar, ExternalLink, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -111,8 +111,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
     }
     
     // Check for debug mode in URL or localStorage
-    const urlParams = new URLSearchParams(window.location.search)
-    const debugParam = urlParams.get('debug')
+    const debugParam = searchParams?.debug
     const savedDebug = localStorage.getItem('debugMode')
     
     if (debugParam === 'true' || savedDebug === 'true') {
@@ -130,7 +129,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
     
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [searchParams, debugMode])
 
   const handleSearch = async () => {
     if (!query.trim()) return
