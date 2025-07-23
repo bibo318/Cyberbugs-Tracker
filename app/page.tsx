@@ -28,6 +28,67 @@ interface SearchResult {
   tags: string[]
 }
 
+interface Language {
+  code: string
+  name: string
+  flag: string
+}
+
+const languages: Language[] = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
+]
+
+const translations = {
+  en: {
+    title: "Live Security Intelligence",
+    subtitle: "Real-time data from NVD, Vulners, GitHub - Live vulnerability intelligence as it happens",
+    searchPlaceholder: "Search CVE-2024-4577, PHP, Apache... (LIVE DATA)",
+    searchButton: "Search Live",
+    searchingButton: "Fetching Live...",
+    allSources: "All Sources",
+    cveOnly: "CVE Only",
+    pocExploits: "PoC/Exploits",
+    securityNews: "Security News",
+    highSeverity: "High Severity",
+    latestFirst: "Latest First",
+    bySeverity: "By Severity",
+    relevance: "Relevance",
+    recent: "Recent:",
+    try: "Try:",
+    liveSearchResults: "Live Search Results",
+    foundResults: "Found",
+    liveResults: "LIVE results for",
+    liveData: "Live data from",
+    realTimeSources: "real-time sources",
+    allResults: "All Results",
+    viewDetails: "View Details"
+  },
+  vi: {
+    title: "Thông Tin Bảo Mật Trực Tiếp",
+    subtitle: "Dữ liệu thời gian thực từ NVD, Vulners, GitHub - Thông tin lỗ hổng trực tiếp khi xảy ra",
+    searchPlaceholder: "Tìm CVE-2024-4577, PHP, Apache... (DỮ LIỆU TRỰC TIẾP)",
+    searchButton: "Tìm Kiếm Trực Tiếp",
+    searchingButton: "Đang Tìm...",
+    allSources: "Tất Cả Nguồn",
+    cveOnly: "Chỉ CVE",
+    pocExploits: "PoC/Khai Thác",
+    securityNews: "Tin Bảo Mật",
+    highSeverity: "Mức Độ Cao",
+    latestFirst: "Mới Nhất Trước",
+    bySeverity: "Theo Mức Độ",
+    relevance: "Liên Quan",
+    recent: "Gần đây:",
+    try: "Thử:",
+    liveSearchResults: "Kết Quả Tìm Kiếm Trực Tiếp",
+    foundResults: "Tìm thấy",
+    liveResults: "kết quả TRỰC TIẾP cho",
+    liveData: "Dữ liệu trực tiếp từ",
+    realTimeSources: "nguồn thời gian thực",
+    allResults: "Tất Cả Kết Quả",
+    viewDetails: "Xem Chi Tiết"
+  }
+}
 export default function SecurityResearchPlatform({ searchParams }: { searchParams: any }) {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SearchResult[]>([])
@@ -38,12 +99,37 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
   const [lastSearchTime, setLastSearchTime] = useState<string>("")
   const [apiResponse, setApiResponse] = useState<any>(null)
   const [apiSources, setApiSources] = useState<any[]>([])
+  const [language, setLanguage] = useState<'en' | 'vi'>('en')
+  const [debugMode, setDebugMode] = useState(false)
+
+  const t = translations[language]
 
   useEffect(() => {
     const history = localStorage.getItem("searchHistory")
     if (history) {
       setSearchHistory(JSON.parse(history))
     }
+    
+    // Check for debug mode in URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search)
+    const debugParam = urlParams.get('debug')
+    const savedDebug = localStorage.getItem('debugMode')
+    
+    if (debugParam === 'true' || savedDebug === 'true') {
+      setDebugMode(true)
+    }
+    
+    // Listen for debug toggle (Ctrl+Shift+D)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        const newDebugMode = !debugMode
+        setDebugMode(newDebugMode)
+        localStorage.setItem('debugMode', newDebugMode.toString())
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   const handleSearch = async () => {
@@ -127,6 +213,22 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
     }
   }
 
+  const getSourceBadgeColor = (source: string) => {
+    switch (source.toLowerCase()) {
+      case "nvd":
+        return "bg-blue-500/20 text-blue-400 border-blue-500/30"
+      case "vulners":
+        return "bg-purple-500/20 text-purple-400 border-purple-500/30"
+      case "github":
+        return "bg-gray-500/20 text-gray-400 border-gray-500/30"
+      case "exploit-db":
+        return "bg-red-500/20 text-red-400 border-red-500/30"
+      case "demonews":
+        return "bg-green-500/20 text-green-400 border-green-500/30"
+      default:
+        return "bg-orange-500/20 text-orange-400 border-orange-500/30"
+    }
+  }
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
@@ -145,6 +247,24 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              {/* Language Selector */}
+              <Select value={language} onValueChange={(value: 'en' | 'vi') => setLanguage(value)}>
+                <SelectTrigger className="w-32 bg-gray-900/50 border-gray-700">
+                  <Globe className="w-4 h-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-900 border-gray-700">
+                  {languages.map((lang) => (
+                    <SelectItem key={lang.code} value={lang.code}>
+                      <div className="flex items-center space-x-2">
+                        <span>{lang.flag}</span>
+                        <span>{lang.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
               <Badge variant="outline" className="border-green-500/30 text-green-400">
                 <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
                 LIVE DATA
@@ -161,10 +281,10 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
 
         <div className="container mx-auto relative z-10">
           <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-red-400 to-green-400 bg-clip-text text-transparent">
-            Live Security Intelligence
+            {t.title}
           </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
-            Real-time data from NVD, Vulners, GitHub - Live vulnerability intelligence as it happens
+            {t.subtitle}
           </p>
 
           {/* Search Interface */}
@@ -173,7 +293,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
               <div className="flex-1 relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  placeholder="Search CVE-2024-4577, PHP, Apache... (LIVE DATA)"
+                  placeholder={t.searchPlaceholder}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -185,7 +305,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
                 disabled={loading}
                 className="h-14 px-8 bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold"
               >
-                {loading ? "Fetching Live..." : "Search Live"}
+                {loading ? t.searchingButton : t.searchButton}
               </Button>
             </div>
 
@@ -197,11 +317,11 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-900 border-gray-700">
-                  <SelectItem value="all">All Sources</SelectItem>
-                  <SelectItem value="cve">CVE Only</SelectItem>
-                  <SelectItem value="poc">PoC/Exploits</SelectItem>
-                  <SelectItem value="news">Security News</SelectItem>
-                  <SelectItem value="high-severity">High Severity</SelectItem>
+                  <SelectItem value="all">{t.allSources}</SelectItem>
+                  <SelectItem value="cve">{t.cveOnly}</SelectItem>
+                  <SelectItem value="poc">{t.pocExploits}</SelectItem>
+                  <SelectItem value="news">{t.securityNews}</SelectItem>
+                  <SelectItem value="high-severity">{t.highSeverity}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -211,9 +331,9 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-900 border-gray-700">
-                  <SelectItem value="date">Latest First</SelectItem>
-                  <SelectItem value="severity">By Severity</SelectItem>
-                  <SelectItem value="relevance">Relevance</SelectItem>
+                  <SelectItem value="date">{t.latestFirst}</SelectItem>
+                  <SelectItem value="severity">{t.bySeverity}</SelectItem>
+                  <SelectItem value="relevance">{t.relevance}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -221,7 +341,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
             {/* Search History */}
             {searchHistory.length > 0 && (
               <div className="flex flex-wrap gap-2 justify-center">
-                <span className="text-sm text-gray-400">Recent:</span>
+                <span className="text-sm text-gray-400">{t.recent}</span>
                 {searchHistory.slice(0, 5).map((term, index) => (
                   <Button
                     key={index}
@@ -238,7 +358,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
 
             {/* Quick Search Examples */}
             <div className="flex flex-wrap gap-2 justify-center">
-              <span className="text-sm text-gray-400">Try:</span>
+              <span className="text-sm text-gray-400">{t.try}</span>
               {["CVE-2024-4577", "PHP", "Apache", "Microsoft Exchange", "0day"].map((example, index) => (
                 <Button
                   key={index}
@@ -272,7 +392,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
       </section>
 
       {/* API Sources Monitor */}
-      {(loading || results.length > 0) && (
+      {debugMode && (loading || results.length > 0) && (
         <section className="py-8 px-4">
           <div className="container mx-auto max-w-6xl">
             <APISourcesMonitor isSearching={loading} searchQuery={query} onSourcesUpdate={setApiSources} />
@@ -285,9 +405,9 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
         <section className="py-12 px-4">
           <div className="container mx-auto">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-white">Live Search Results ({results.length})</h3>
+              <h3 className="text-2xl font-bold text-white">{t.liveSearchResults} ({results.length})</h3>
               <div className="text-sm text-gray-400">
-                Found {results.length} LIVE results for "{query}"
+                {t.foundResults} {results.length} {t.liveResults} "{query}"
                 {apiResponse?.meta?.sources && (
                   <div className="text-xs text-gray-500 mt-1">
                     {Object.entries(apiResponse.meta.sources).map(([source, count]) => (
@@ -299,7 +419,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
                 )}
                 {apiResponse?.meta?.realtime && (
                   <div className="text-xs text-green-400 mt-1">
-                    ✓ Live data from {apiResponse.meta.totalSources} real-time sources
+                    ✓ {t.liveData} {apiResponse.meta.totalSources} {t.realTimeSources}
                   </div>
                 )}
               </div>
@@ -307,7 +427,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
 
             <Tabs defaultValue="all" className="w-full">
               <TabsList className="grid w-full grid-cols-4 bg-gray-900/50">
-                <TabsTrigger value="all">All Results</TabsTrigger>
+                <TabsTrigger value="all">{t.allResults}</TabsTrigger>
                 <TabsTrigger value="cve">CVE ({results.filter((r) => r.type === "cve").length})</TabsTrigger>
                 <TabsTrigger value="poc">PoC/Exploits ({results.filter((r) => r.type === "poc").length})</TabsTrigger>
                 <TabsTrigger value="news">News ({results.filter((r) => r.type === "news").length})</TabsTrigger>
@@ -327,7 +447,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
                             <Badge variant="outline" className="text-xs">
                               {result.type.toUpperCase()}
                             </Badge>
-                            <Badge variant="secondary" className="text-xs bg-blue-500/20 text-blue-300">
+                            <Badge variant="secondary" className={`text-xs ${getSourceBadgeColor(result.source)}`}>
                               {result.source}
                             </Badge>
                           </div>
@@ -385,7 +505,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
                             className="w-full border-purple-500/30 hover:border-purple-500 hover:bg-purple-500/10 bg-transparent"
                             onClick={() => window.open(result.url, "_blank")}
                           >
-                            View Details
+                            {t.viewDetails}
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </Button>
                         </div>
@@ -402,7 +522,7 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
       )}
 
       {/* Debug sections for development */}
-      {process.env.NODE_ENV === "development" && (query || results.length > 0) && (
+      {debugMode && (query || results.length > 0) && (
         <section className="py-8 px-4">
           <div className="container mx-auto max-w-4xl">
             <SearchDebug
@@ -429,6 +549,9 @@ export default function SecurityResearchPlatform({ searchParams }: { searchParam
           </div>
           <p className="text-gray-400 mb-4">Live Security Intelligence Platform</p>
           <p className="text-sm text-gray-500">Real-time data from NVD, Vulners, GitHub, and security feeds</p>
+          {debugMode && (
+            <p className="text-xs text-yellow-400 mt-2">Debug Mode Active (Ctrl+Shift+D to toggle)</p>
+          )}
         </div>
       </footer>
     </div>
