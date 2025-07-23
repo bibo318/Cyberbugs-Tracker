@@ -28,7 +28,7 @@ interface SearchResult {
   tags: string[]
 }
 
-export default function SecurityResearchPlatform() {
+export default function SecurityResearchPlatform({ searchParams }: { searchParams: any }) {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
