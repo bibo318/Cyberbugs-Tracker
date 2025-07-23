@@ -8,14 +8,14 @@
 
 ## 🎯 Features
 
-- **Multi-Source Intelligence**: Aggregates data from CVE, NVD, Exploit-DB, GitHub, ZDI, and security news feeds
+- **Multi-Source Intelligence**: Aggregates data from NVD, Vulners, Exploit-DB, GitHub, ZDI, and security news feeds
+- **Real NVD Integration**: Direct integration with NIST's National Vulnerability Database API
 - **Advanced Search**: Intelligent search across vulnerabilities, exploits, and security advisories
 - **Real-time Updates**: Live security feed integration with RSS parsing
 - **Severity Analysis**: CVSS scoring and risk assessment
 - **PoC Detection**: Identifies available proof-of-concept exploits
 - **Dark Theme**: Cyberpunk-inspired UI optimized for security professionals
 - **Responsive Design**: Works seamlessly across desktop and mobile devices
-- **Export Capabilities**: JSON/CSV export for further analysis
 
 ## 🚀 Quick Start
 
@@ -23,52 +23,59 @@
 
 - Node.js 18+ 
 - npm or yarn
-- API keys for external services (optional for demo)
+- NVD API key (optional but recommended)
 
 ### Installation
 
 1. **Clone the repository**
    \`\`\`bash
-   git clone https://github.com/bibo318/Cyberbugs-Tracker
-   cd Cyberbugs-Tracker
+   git clone https://github.com/yourusername/secresearch-platform.git
+   cd secresearch-platform
    \`\`\`
 
 2. **Install dependencies**
    \`\`\`bash
    npm install
-   # or
-   yarn install
    \`\`\`
 
 3. **Environment Configuration**
    
    Create `.env.local` file in the root directory:
    \`\`\`env
-   # API Keys (Optional - demo works without them)
+   # NVD API Configuration
+   NVD_API_KEY=your_nvd_api_key_here
+   
+   # Other API Keys (Optional)
    VULNERS_API_KEY=your_vulners_api_key
-   NVD_API_KEY=your_nvd_api_key
    GITHUB_TOKEN=your_github_token
    
    # Optional: Redis for caching
    REDIS_URL=redis://localhost:6379
    \`\`\`
 
-4. **Run Development Server**
+4. **Get NVD API Key (Recommended)**
+   
+   Visit [NVD API Key Request](https://nvd.nist.gov/developers/request-an-api-key) to get your free API key.
+   
+   **Benefits of API Key:**
+   - 50 requests per 30 seconds (vs 5 without key)
+   - Better rate limiting
+   - More reliable access
+
+5. **Run Development Server**
    \`\`\`bash
    npm run dev
-   # or
-   yarn dev
    \`\`\`
 
-5. **Open your browser**
+6. **Test NVD Integration**
    
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Open [http://localhost:3000/api/nvd/test](http://localhost:3000/api/nvd/test) to verify NVD integration.
 
 ## 🌐 Deploy to Vercel
 
 ### One-Click Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/Cyberbugs-Tracker)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/secresearch-platform)
 
 ### Manual Deployment
 
@@ -89,96 +96,168 @@
    
    Add these in your Vercel project settings:
    \`\`\`
-   VULNERS_API_KEY=your_key_here
-   NVD_API_KEY=your_key_here  
-   GITHUB_TOKEN=your_token_here
+   NVD_API_KEY=your_nvd_api_key
+   VULNERS_API_KEY=your_vulners_key  
+   GITHUB_TOKEN=your_github_token
    \`\`\`
 
-## 🔧 API Integration
+## 🔧 NVD API Integration
 
-### Supported Data Sources
+### Features
 
-| Source | Type | API Documentation |
-|--------|------|-------------------|
-| **Vulners** | CVE, PoC, Exploits | [vulners.com/docs](https://vulners.com/docs) |
-| **NVD** | Official CVE Database | [nvd.nist.gov/developers](https://nvd.nist.gov/developers) |
-| **Exploit-DB** | Exploit Repository | [exploit-db.com](https://www.exploit-db.com) |
-| **GitHub** | PoC Repositories | [docs.github.com/rest](https://docs.github.com/en/rest) |
-| **ZDI** | Zero-Day Advisories | [zerodayinitiative.com](https://www.zerodayinitiative.com) |
-| **Security News** | RSS Feeds | Multiple sources |
+- **CVE Search**: Search by CVE ID (e.g., CVE-2024-4577)
+- **Keyword Search**: Search by software, vendor, or vulnerability type
+- **Severity Filtering**: Filter by CVSS v3 severity levels
+- **Date Range**: Search within specific publication dates
+- **Rate Limiting**: Automatic rate limiting compliance
+- **Error Handling**: Robust error handling and retry logic
 
-### API Keys Setup
-
-1. **Vulners API**
-   - Register at [vulners.com](https://vulners.com)
-   - Generate API key in dashboard
-   - Add to `.env.local` as `VULNERS_API_KEY`
-
-2. **NVD API** 
-   - Request API key at [nvd.nist.gov](https://nvd.nist.gov/developers/request-an-api-key)
-   - Add to `.env.local` as `NVD_API_KEY`
-
-3. **GitHub Token**
-   - Generate personal access token in GitHub settings
-   - Add to `.env.local` as `GITHUB_TOKEN`
-
-## 🎨 Customization
-
-### Theme Configuration
-
-The platform uses a cyberpunk-inspired dark theme. Customize colors in `tailwind.config.ts`:
+### Usage Examples
 
 \`\`\`typescript
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        // Cyberpunk color palette
-        'cyber-purple': '#8B5CF6',
-        'cyber-red': '#EF4444', 
-        'cyber-green': '#10B981',
-        'cyber-blue': '#3B82F6'
-      }
+// Search for specific CVE
+const nvdClient = new NVDClient(process.env.NVD_API_KEY)
+const result = await nvdClient.searchCVE({
+  cveId: "CVE-2024-4577"
+})
+
+// Keyword search
+const phpVulns = await nvdClient.searchCVE({
+  keywordSearch: "PHP",
+  cvssV3Severity: "HIGH",
+  resultsPerPage: 20
+})
+
+// Date range search
+const recentVulns = await nvdClient.searchCVE({
+  keywordSearch: "Apache",
+  pubStartDate: "2024-01-01T00:00:000 UTC-00:00",
+  pubEndDate: "2024-12-31T23:59:999 UTC-00:00"
+})
+\`\`\`
+
+### Rate Limits
+
+| API Key Status | Rate Limit | Recommended Use |
+|----------------|------------|-----------------|
+| **Without Key** | 5 requests/30 seconds | Testing, light usage |
+| **With Key** | 50 requests/30 seconds | Production, heavy usage |
+
+## 🔍 Search Examples
+
+Try these search queries to test the platform:
+
+- **CVE-2024-4577** - Specific CVE lookup
+- **PHP** - All PHP-related vulnerabilities
+- **Apache 2.4** - Apache web server vulnerabilities
+- **Microsoft Exchange** - Exchange server security issues
+- **CVSS >= 9.0** - Critical severity vulnerabilities
+- **0day** - Zero-day vulnerabilities and news
+
+## 🛠 API Endpoints
+
+### Search API
+\`\`\`
+GET /api/search?q={query}&filter={type}&sort={order}
+\`\`\`
+
+**Parameters:**
+- `q`: Search query (CVE ID, keyword, software name)
+- `filter`: `all`, `cve`, `poc`, `news`, `high-severity`
+- `sort`: `date`, `severity`, `relevance`
+
+**Response:**
+\`\`\`json
+{
+  "results": [...],
+  "total": 42,
+  "query": "PHP",
+  "meta": {
+    "duration": "1,234ms",
+    "sources": {
+      "nvd": 15,
+      "github": 8,
+      "news": 3
     }
   }
 }
 \`\`\`
 
-### Adding New Data Sources
+### NVD Test API
+\`\`\`
+GET /api/nvd/test
+\`\`\`
 
-1. Create API client in `lib/api-clients.ts`
-2. Add search logic in `app/api/search/route.ts`
-3. Update result types in `lib/types.ts`
+Tests NVD integration and displays API status, rate limits, and sample queries.
 
-## 📊 Usage Examples
+## 🔧 Configuration
 
-### Search Queries
+### NVD API Settings
 
-- **CVE Lookup**: `CVE-2024-4577`
-- **Software Vulnerabilities**: `Apache 2.4.49`
-- **Product Security**: `Microsoft Exchange 2019`
-- **Exploit Search**: `PHP RCE exploit`
-- **Zero-day Research**: `0day Windows kernel`
+The NVD client automatically handles:
+- Rate limiting (6s delay without key, 0.6s with key)
+- Error handling and retries
+- Request logging and monitoring
+- Data transformation to unified format
 
-### API Endpoints
+### Customization
 
-- `GET /api/search?q=query&filter=type&sort=date`
-- `GET /api/cve/{cve-id}` (planned)
-- `GET /api/stats` (planned)
+Edit `lib/nvd-client.ts` to customize:
+- Search parameters
+- Rate limiting behavior
+- Data transformation logic
+- Error handling strategies
 
-## 🛡️ Security Considerations
+## 🐛 Troubleshooting
 
-- **Rate Limiting**: Implement API rate limiting for production
-- **Input Validation**: All search inputs are sanitized
-- **CORS Policy**: Configure appropriate CORS headers
-- **API Key Security**: Never expose API keys in client-side code
+### Common Issues
+
+**1. NVD API Rate Limiting**
+\`\`\`
+Error: NVD API Error: 403 Forbidden
+\`\`\`
+**Solution:** Get an API key or reduce request frequency.
+
+**2. Network Timeouts**
+\`\`\`
+Error: fetch failed
+\`\`\`
+**Solution:** Check internet connection and NVD service status.
+
+**3. Invalid CVE Format**
+\`\`\`
+No results found
+\`\`\`
+**Solution:** Ensure CVE format is correct (e.g., CVE-2024-1234).
+
+### Debug Mode
+
+Enable debug logging by setting:
+\`\`\`env
+NODE_ENV=development
+\`\`\`
+
+This will show:
+- API request/response details
+- Rate limiting information
+- Search performance metrics
+- Integration test results
+
+## 📊 Monitoring
+
+The platform includes built-in monitoring:
+
+- **API Status Monitor**: Real-time API health checks
+- **Sources Monitor**: Track data source availability
+- **Performance Metrics**: Response times and success rates
+- **Debug Panel**: Detailed request/response logging
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
+2. Create feature branch (`git checkout -b feature/nvd-enhancement`)
+3. Commit changes (`git commit -m 'Add NVD advanced filtering'`)
+4. Push to branch (`git push origin feature/nvd-enhancement`)
 5. Open Pull Request
 
 ## 📝 License
@@ -187,18 +266,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
+- [NIST NVD](https://nvd.nist.gov) for the comprehensive CVE database
 - [Vulners](https://vulners.com) for vulnerability intelligence
-- [NVD](https://nvd.nist.gov) for CVE database
 - [Exploit-DB](https://exploit-db.com) for exploit repository
 - [shadcn/ui](https://ui.shadcn.com) for UI components
-- [Lucide](https://lucide.dev) for icons
 
 ## 📞 Support
 
 - 📧 Email: support@secresearch.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/Cyberbugs-Tracker/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/Cyberbugs-Tracker/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/secresearch-platform/issues)
+- 📖 NVD API Docs: [https://nvd.nist.gov/developers](https://nvd.nist.gov/developers)
 
 ---
 
 **⚠️ Disclaimer**: This tool is for educational and authorized security research purposes only. Users are responsible for complying with applicable laws and regulations.
+
+**🔒 Privacy**: No search queries or personal data are stored. All API calls are made server-side to protect user privacy.
