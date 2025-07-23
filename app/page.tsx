@@ -402,28 +402,18 @@ export default function SecurityResearchPlatform() {
       )}
 
       {/* Debug sections for development */}
-      {process.env.NODE_ENV === "development" && (
-        <>
-          <section className="py-8 px-4">
-            <div className="container mx-auto max-w-4xl">
-              <NVDDebugPanel />
-            </div>
-          </section>
-
-          {(query || results.length > 0) && (
-            <section className="py-8 px-4">
-              <div className="container mx-auto max-w-4xl">
-                <SearchDebug
-                  searchQuery={query}
-                  searchResults={results}
-                  loading={loading}
-                  lastSearchTime={lastSearchTime}
-                  apiResponse={apiResponse}
-                />
-              </div>
-            </section>
-          )}
-        </>
+      {process.env.NODE_ENV === "development" && (query || results.length > 0) && (
+        <section className="py-8 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <SearchDebug
+              searchQuery={query}
+              searchResults={results}
+              loading={loading}
+              lastSearchTime={lastSearchTime}
+              apiResponse={apiResponse}
+            />
+          </div>
+        </section>
       )}
 
       {/* Footer */}
