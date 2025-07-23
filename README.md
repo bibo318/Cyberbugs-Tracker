@@ -1,173 +1,167 @@
-# SecResearch - Advanced Security Intelligence Platform
+# SecResearch - Nền Tảng Thông Tin Bảo Mật Trực Tiếp
 
-🔍 **Comprehensive vulnerability intelligence platform** aggregating data from CVE databases, exploit repositories, zero-day advisories, and real-time security feeds.
+🔍 **Nền tảng thông tin lỗ hổng bảo mật toàn diện** tổng hợp dữ liệu từ cơ sở dữ liệu CVE, kho lưu trữ exploit, cảnh báo zero-day và nguồn cấp dữ liệu bảo mật thời gian thực.
 
-![SecResearch Platform](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![SecResearch Platform](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-## 🎯 Features
+## 🎯 Tính Năng Chính
 
-- **Multi-Source Intelligence**: Aggregates data from NVD, Vulners, Exploit-DB, GitHub, ZDI, and security news feeds
-- **Real NVD Integration**: Direct integration with NIST's National Vulnerability Database API
-- **Advanced Search**: Intelligent search across vulnerabilities, exploits, and security advisories
-- **Real-time Updates**: Live security feed integration with RSS parsing
-- **Severity Analysis**: CVSS scoring and risk assessment
-- **PoC Detection**: Identifies available proof-of-concept exploits
-- **Dark Theme**: Cyberpunk-inspired UI optimized for security professionals
-- **Responsive Design**: Works seamlessly across desktop and mobile devices
+### 🌐 **Đa Ngôn Ngữ**
+- **Tiếng Việt** và **English** với giao diện hoàn chỉnh
+- Chuyển đổi ngôn ngữ dễ dàng với selector có cờ quốc gia
+- Lưu trữ lựa chọn ngôn ngữ tự động
 
-## 🚀 Quick Start
+### 📡 **Dữ Liệu Thời Gian Thực**
+- **Tích hợp NVD**: Kết nối trực tiếp với API National Vulnerability Database của NIST
+- **Vulners API**: Nền tảng thông tin lỗ hổng toàn diện
+- **GitHub Search**: Tìm kiếm PoC exploits và công cụ bảo mật
+- **Nguồn tin bảo mật**: Tích hợp RSS feeds từ các trang tin tức bảo mật hàng đầu
 
-### Prerequisites
+### 🔍 **Tìm Kiếm Thông Minh**
+- Tìm kiếm thông minh qua nhiều nguồn lỗ hổng, exploits và cảnh báo bảo mật
+- Bộ lọc nâng cao theo loại, mức độ nghiêm trọng, thời gian
+- Sắp xếp theo ngày, mức độ nghiêm trọng, độ liên quan
+- Lịch sử tìm kiếm và gợi ý nhanh
+
+### 🎨 **Giao Diện Hiện Đại**
+- **Dark Theme**: Giao diện cyberpunk tối ưu cho chuyên gia bảo mật
+- **Responsive Design**: Hoạt động mượt mà trên desktop và mobile
+- **Real-time Indicators**: Hiển thị trạng thái dữ liệu trực tiếp
+- **Source Tags**: Nhận diện nguồn dữ liệu bằng màu sắc
+
+### 🛠 **Công Cụ Debug**
+- **Debug Mode**: Bật/tắt bằng `Ctrl+Shift+D` hoặc `?debug=true`
+- **API Monitor**: Theo dõi trạng thái các nguồn dữ liệu
+- **Performance Metrics**: Thời gian phản hồi và thống kê
+- **Real-time Logs**: Nhật ký hoạt động chi tiết
+
+## 🚀 Hướng Dẫn Cài Đặt
+
+### Yêu Cầu Hệ Thống
 
 - Node.js 18+ 
-- npm or yarn
-- NVD API key (optional but recommended)
+- npm hoặc yarn
+- API keys (tùy chọn nhưng khuyến nghị)
 
-### Installation
+### Cài Đặt Nhanh
 
-1. **Clone the repository**
-   \`\`\`bash
+1. **Clone repository**
+   ```bash
    git clone https://github.com/yourusername/secresearch-platform.git
    cd secresearch-platform
-   \`\`\`
+   ```
 
-2. **Install dependencies**
-   \`\`\`bash
+2. **Cài đặt dependencies**
+   ```bash
    npm install
-   \`\`\`
+   ```
 
-3. **Environment Configuration**
+3. **Cấu hình môi trường**
    
-   Create `.env.local` file in the root directory:
-   \`\`\`env
-   # NVD API Configuration
+   Tạo file `.env.local` trong thư mục gốc:
+   ```env
+   # Cấu hình NVD API (Khuyến nghị)
    NVD_API_KEY=your_nvd_api_key_here
    
-   # Other API Keys (Optional)
+   # Các API Keys khác (Tùy chọn)
    VULNERS_API_KEY=your_vulners_api_key
    GITHUB_TOKEN=your_github_token
-   
-   # Optional: Redis for caching
-   REDIS_URL=redis://localhost:6379
-   \`\`\`
+   ```
 
-4. **Get NVD API Key (Recommended)**
-   
-   Visit [NVD API Key Request](https://nvd.nist.gov/developers/request-an-api-key) to get your free API key.
-   
-   **Benefits of API Key:**
-   - 50 requests per 30 seconds (vs 5 without key)
-   - Better rate limiting
-   - More reliable access
-
-5. **Run Development Server**
-   \`\`\`bash
+4. **Chạy development server**
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
-6. **Test NVD Integration**
+5. **Truy cập ứng dụng**
    
-   Open [http://localhost:3000/api/nvd/test](http://localhost:3000/api/nvd/test) to verify NVD integration.
+   Mở [http://localhost:3000](http://localhost:3000) trong trình duyệt
 
-## 🌐 Deploy to Vercel
+## 🔑 Hướng Dẫn Lấy API Keys
 
-### One-Click Deploy
+### 1. **NVD API Key (Khuyến nghị cao)**
+- Truy cập: [NVD API Key Request](https://nvd.nist.gov/developers/request-an-api-key)
+- **Lợi ích**: 50 requests/30s (thay vì 5 requests/30s)
+- **Miễn phí** và cải thiện đáng kể hiệu suất
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/secresearch-platform)
+### 2. **Vulners API Key**
+- Truy cập: [Vulners User Info](https://vulners.com/userinfo)
+- Đăng ký tài khoản miễn phí
+- Lấy API key từ dashboard
 
-### Manual Deployment
+### 3. **GitHub Token**
+- Truy cập: [GitHub Settings > Tokens](https://github.com/settings/tokens)
+- Tạo Personal Access Token
+- Quyền cần thiết: `public_repo` (đọc repository công khai)
 
-1. **Push to GitHub**
-   \`\`\`bash
+## 🌐 Triển Khai Production
+
+### Triển Khai Vercel (Khuyến nghị)
+
+1. **Push code lên GitHub**
+   ```bash
    git add .
    git commit -m "Initial commit"
    git push origin main
-   \`\`\`
+   ```
 
-2. **Connect to Vercel**
-   - Go to [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Configure environment variables in Vercel dashboard
+2. **Kết nối với Vercel**
+   - Truy cập [vercel.com](https://vercel.com)
+   - Import GitHub repository
+   - Cấu hình environment variables
    - Deploy!
 
-3. **Environment Variables in Vercel**
-   
-   Add these in your Vercel project settings:
-   \`\`\`
+3. **Environment Variables trên Vercel**
+   ```
    NVD_API_KEY=your_nvd_api_key
    VULNERS_API_KEY=your_vulners_key  
    GITHUB_TOKEN=your_github_token
-   \`\`\`
+   ```
 
-## 🔧 NVD API Integration
+### Triển Khai Netlify
 
-### Features
+1. **Build project**
+   ```bash
+   npm run build
+   ```
 
-- **CVE Search**: Search by CVE ID (e.g., CVE-2024-4577)
-- **Keyword Search**: Search by software, vendor, or vulnerability type
-- **Severity Filtering**: Filter by CVSS v3 severity levels
-- **Date Range**: Search within specific publication dates
-- **Rate Limiting**: Automatic rate limiting compliance
-- **Error Handling**: Robust error handling and retry logic
+2. **Deploy to Netlify**
+   - Kéo thả thư mục `out` vào Netlify
+   - Hoặc kết nối GitHub repository
 
-### Usage Examples
+## 📖 Hướng Dẫn Sử Dụng
 
-\`\`\`typescript
-// Search for specific CVE
-const nvdClient = new NVDClient(process.env.NVD_API_KEY)
-const result = await nvdClient.searchCVE({
-  cveId: "CVE-2024-4577"
-})
+### Tìm Kiếm Cơ Bản
+- Nhập CVE ID: `CVE-2024-4577`
+- Tìm theo từ khóa: `PHP`, `Apache`, `Microsoft Exchange`
+- Tìm theo mức độ: Sử dụng bộ lọc "High Severity"
 
-// Keyword search
-const phpVulns = await nvdClient.searchCVE({
-  keywordSearch: "PHP",
-  cvssV3Severity: "HIGH",
-  resultsPerPage: 20
-})
+### Tìm Kiếm Nâng Cao
+- **Bộ lọc**: Chọn loại dữ liệu (CVE, PoC, News)
+- **Sắp xếp**: Theo ngày, mức độ nghiêm trọng, độ liên quan
+- **Lịch sử**: Click vào các tìm kiếm gần đây
 
-// Date range search
-const recentVulns = await nvdClient.searchCVE({
-  keywordSearch: "Apache",
-  pubStartDate: "2024-01-01T00:00:000 UTC-00:00",
-  pubEndDate: "2024-12-31T23:59:999 UTC-00:00"
-})
-\`\`\`
+### Debug Mode
+- **Bật**: `Ctrl+Shift+D` hoặc thêm `?debug=true` vào URL
+- **Tính năng**: API monitor, performance metrics, logs
+- **Tắt**: `Ctrl+Shift+D` lại hoặc reload trang
 
-### Rate Limits
-
-| API Key Status | Rate Limit | Recommended Use |
-|----------------|------------|-----------------|
-| **Without Key** | 5 requests/30 seconds | Testing, light usage |
-| **With Key** | 50 requests/30 seconds | Production, heavy usage |
-
-## 🔍 Search Examples
-
-Try these search queries to test the platform:
-
-- **CVE-2024-4577** - Specific CVE lookup
-- **PHP** - All PHP-related vulnerabilities
-- **Apache 2.4** - Apache web server vulnerabilities
-- **Microsoft Exchange** - Exchange server security issues
-- **CVSS >= 9.0** - Critical severity vulnerabilities
-- **0day** - Zero-day vulnerabilities and news
-
-## 🛠 API Endpoints
+## 🔧 API Endpoints
 
 ### Search API
-\`\`\`
+```
 GET /api/search?q={query}&filter={type}&sort={order}
-\`\`\`
+```
 
 **Parameters:**
-- `q`: Search query (CVE ID, keyword, software name)
+- `q`: Truy vấn tìm kiếm (CVE ID, từ khóa, tên phần mềm)
 - `filter`: `all`, `cve`, `poc`, `news`, `high-severity`
 - `sort`: `date`, `severity`, `relevance`
 
 **Response:**
-\`\`\`json
+```json
 {
   "results": [...],
   "total": 42,
@@ -175,110 +169,132 @@ GET /api/search?q={query}&filter={type}&sort={order}
   "meta": {
     "duration": "1,234ms",
     "sources": {
-      "nvd": 15,
-      "github": 8,
-      "news": 3
-    }
+      "NVD": 15,
+      "GitHub": 8,
+      "DemoNews": 3
+    },
+    "realtime": true
   }
 }
-\`\`\`
+```
 
 ### NVD Test API
-\`\`\`
+```
 GET /api/nvd/test
-\`\`\`
+```
+Kiểm tra tích hợp NVD và hiển thị trạng thái API, rate limits, và truy vấn mẫu.
 
-Tests NVD integration and displays API status, rate limits, and sample queries.
+### Sources Status API
+```
+GET /api/sources/status
+```
+Kiểm tra trạng thái tất cả nguồn dữ liệu thời gian thực.
 
-## 🔧 Configuration
+## 🎨 Tùy Chỉnh Giao Diện
 
-### NVD API Settings
+### Màu Sắc Source Tags
+- **NVD**: Xanh dương (`bg-blue-500/20`)
+- **Vulners**: Tím (`bg-purple-500/20`)
+- **GitHub**: Xám (`bg-gray-500/20`)
+- **Exploit-DB**: Đỏ (`bg-red-500/20`)
+- **DemoNews**: Xanh lá (`bg-green-500/20`)
 
-The NVD client automatically handles:
-- Rate limiting (6s delay without key, 0.6s with key)
-- Error handling and retries
-- Request logging and monitoring
-- Data transformation to unified format
+### Màu Sắc Mức Độ Nghiêm Trọng
+- **Critical**: Đỏ (`bg-red-500/20`)
+- **High**: Cam (`bg-orange-500/20`)
+- **Medium**: Vàng (`bg-yellow-500/20`)
+- **Low**: Xanh lá (`bg-green-500/20`)
 
-### Customization
+## 🐛 Xử Lý Sự Cố
 
-Edit `lib/nvd-client.ts` to customize:
-- Search parameters
-- Rate limiting behavior
-- Data transformation logic
-- Error handling strategies
+### Lỗi Thường Gặp
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**1. NVD API Rate Limiting**
-\`\`\`
+**1. Rate Limiting NVD API**
+```
 Error: NVD API Error: 403 Forbidden
-\`\`\`
-**Solution:** Get an API key or reduce request frequency.
+```
+**Giải pháp**: Lấy API key hoặc giảm tần suất request.
 
 **2. Network Timeouts**
-\`\`\`
+```
 Error: fetch failed
-\`\`\`
-**Solution:** Check internet connection and NVD service status.
+```
+**Giải pháp**: Kiểm tra kết nối internet và trạng thái dịch vụ NVD.
 
-**3. Invalid CVE Format**
-\`\`\`
+**3. Định dạng CVE không hợp lệ**
+```
 No results found
-\`\`\`
-**Solution:** Ensure CVE format is correct (e.g., CVE-2024-1234).
+```
+**Giải pháp**: Đảm bảo định dạng CVE đúng (ví dụ: CVE-2024-1234).
 
 ### Debug Mode
 
-Enable debug logging by setting:
-\`\`\`env
-NODE_ENV=development
-\`\`\`
+Bật debug mode để xem:
+- Chi tiết request/response API
+- Thông tin rate limiting
+- Metrics hiệu suất tìm kiếm
+- Kết quả kiểm tra tích hợp
 
-This will show:
-- API request/response details
-- Rate limiting information
-- Search performance metrics
-- Integration test results
+## 📊 Giám Sát Hệ Thống
 
-## 📊 Monitoring
+Nền tảng bao gồm giám sát tích hợp:
 
-The platform includes built-in monitoring:
+- **API Status Monitor**: Kiểm tra sức khỏe API thời gian thực
+- **Sources Monitor**: Theo dõi tính khả dụng của nguồn dữ liệu
+- **Performance Metrics**: Thời gian phản hồi và tỷ lệ thành công
+- **Debug Panel**: Logging chi tiết request/response
 
-- **API Status Monitor**: Real-time API health checks
-- **Sources Monitor**: Track data source availability
-- **Performance Metrics**: Response times and success rates
-- **Debug Panel**: Detailed request/response logging
+## 🤝 Đóng Góp
 
-## 🤝 Contributing
+1. Fork repository
+2. Tạo feature branch (`git checkout -b feature/nvd-enhancement`)
+3. Commit thay đổi (`git commit -m 'Add NVD advanced filtering'`)
+4. Push lên branch (`git push origin feature/nvd-enhancement`)
+5. Mở Pull Request
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/nvd-enhancement`)
-3. Commit changes (`git commit -m 'Add NVD advanced filtering'`)
-4. Push to branch (`git push origin feature/nvd-enhancement`)
-5. Open Pull Request
+## 📝 Giấy Phép
 
-## 📝 License
+Dự án này được cấp phép theo MIT License - xem file [LICENSE](LICENSE) để biết chi tiết.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 🙏 Lời Cảm Ơn
 
-## 🙏 Acknowledgments
+- [NIST NVD](https://nvd.nist.gov) cho cơ sở dữ liệu CVE toàn diện
+- [Vulners](https://vulners.com) cho thông tin lỗ hổng bảo mật
+- [Exploit-DB](https://exploit-db.com) cho kho lưu trữ exploit
+- [shadcn/ui](https://ui.shadcn.com) cho các component UI
+- [Lucide React](https://lucide.dev) cho bộ icon đẹp
 
-- [NIST NVD](https://nvd.nist.gov) for the comprehensive CVE database
-- [Vulners](https://vulners.com) for vulnerability intelligence
-- [Exploit-DB](https://exploit-db.com) for exploit repository
-- [shadcn/ui](https://ui.shadcn.com) for UI components
+## 📞 Hỗ Trợ
 
-## 📞 Support
-
-- 📧 Email: support@secresearch.com
 - 🐛 Issues: [GitHub Issues](https://github.com/yourusername/secresearch-platform/issues)
 - 📖 NVD API Docs: [https://nvd.nist.gov/developers](https://nvd.nist.gov/developers)
+- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/secresearch-platform/discussions)
+
+## 🔄 Changelog
+
+### v1.2.0 (Latest)
+- ✅ Thêm hỗ trợ đa ngôn ngữ (Tiếng Việt + English)
+- ✅ Source tags với màu sắc phân biệt
+- ✅ Debug mode có thể bật/tắt
+- ✅ Cải thiện real-time indicators
+- ✅ Tối ưu hóa hiệu suất API
+
+### v1.1.0
+- ✅ Tích hợp NVD API thời gian thực
+- ✅ Thêm Vulners và GitHub integration
+- ✅ API monitoring và status checks
+- ✅ Responsive design improvements
+
+### v1.0.0
+- ✅ Phiên bản đầu tiên
+- ✅ Tìm kiếm cơ bản
+- ✅ Dark theme cyberpunk
+- ✅ Mock data sources
 
 ---
 
-**⚠️ Disclaimer**: This tool is for educational and authorized security research purposes only. Users are responsible for complying with applicable laws and regulations.
+**⚠️ Tuyên Bố Miễn Trừ Trách Nhiệm**: Công cụ này chỉ dành cho mục đích giáo dục và nghiên cứu bảo mật được ủy quyền. Người dùng có trách nhiệm tuân thủ các luật và quy định hiện hành.
 
-**🔒 Privacy**: No search queries or personal data are stored. All API calls are made server-side to protect user privacy.
+**🔒 Quyền Riêng Tư**: Không có truy vấn tìm kiếm hoặc dữ liệu cá nhân nào được lưu trữ. Tất cả các cuộc gọi API được thực hiện phía server để bảo vệ quyền riêng tư của người dùng.
+
+**🌟 Star Repository**: Nếu bạn thấy dự án hữu ích, hãy star repository để ủng hộ nhà phát triển!
